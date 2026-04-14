@@ -2,11 +2,6 @@
 // ---- EMAILJS INIT ----
 emailjs.init('aiSn66a-RzGBv65hn');
 
-// ---- PROTECTION ----
-document.addEventListener('contextmenu', e => { e.preventDefault(); e.stopPropagation(); return false; }, true);
-document.addEventListener('selectstart', e => { e.preventDefault(); return false; }, true);
-document.addEventListener('dragstart', e => { e.preventDefault(); return false; }, true);
-window.addEventListener('contextmenu', e => { e.preventDefault(); e.stopPropagation(); return false; }, true);
 
 // ---- DATA ----
 const DATA = {
@@ -409,21 +404,31 @@ function checkAdminPwd(){
 
 // ===== AUDIO PLAYER =====
 const bgAudio = document.getElementById('bgAudio');
+const apWaves = document.getElementById('apWaves');
+const apIconPlay = document.getElementById('apIconPlay');
+const apIconPause = document.getElementById('apIconPause');
+let apPlaying = false;
 
 if (bgAudio) {
-    bgAudio.src = "the_mountain-wedding-487025.mp3";   // ←←← Ligne importante
-    bgAudio.volume = 0.2;      // Volume de base (entre 0 et 1)
-    bgAudio.loop = true;       // La musique tourne en boucle
+    bgAudio.src = "the_mountain-wedding-487025.mp3";
+    bgAudio.volume = 0.2;
+    bgAudio.loop = true;
 }
 
-// Fonction pour play/pause (si tu as déjà un bouton)
+function setAudioUI(playing) {
+    apPlaying = playing;
+    if (apWaves) apWaves.classList.toggle('paused', !playing);
+    if (apIconPlay) apIconPlay.style.display = playing ? 'none' : '';
+    if (apIconPause) apIconPause.style.display = playing ? '' : 'none';
+}
+
 function toggleAudio() {
     if (!bgAudio) return;
-    
     if (bgAudio.paused) {
-        bgAudio.play().catch(e => console.log("Lecture bloquée :", e));
+        bgAudio.play().then(() => setAudioUI(true)).catch(e => console.log("Lecture bloquée :", e));
     } else {
         bgAudio.pause();
+        setAudioUI(false);
     }
 }
 
@@ -495,6 +500,17 @@ if(apRing) {
 }
 drawRing(0.2);
 
+// ---- AUDIO BUTTON MOBILE ----
+(function(){
+  const btn = document.getElementById('apBtn');
+  if(!btn) return;
+  btn.addEventListener('touchend', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    toggleAudio();
+  }, {passive: false});
+})();
+
 // ---- SPLASH SCREEN ----
 function enterSite() {
   const splash = document.getElementById('splashScreen');
@@ -503,12 +519,7 @@ function enterSite() {
   document.body.classList.remove('splash-visible');
   const ap = document.getElementById('audioPlayer');
   if(ap) ap.style.display = '';
-  bgAudio.play().then(()=>{
-    apPlaying = true;
-    if(apWaves) apWaves.classList.remove('paused');
-    if(apIconPlay) apIconPlay.style.display = 'none';
-    if(apIconPause) apIconPause.style.display = '';
-  }).catch(()=>{});
+  bgAudio.play().then(()=>{ setAudioUI(true); }).catch(()=>{});
   splash.style.animation = 'splashExit 0.8s ease forwards';
   splash.style.pointerEvents = 'none';
   window.scrollTo(0, 0);
