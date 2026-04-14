@@ -2,11 +2,6 @@
 // ---- EMAILJS INIT ----
 emailjs.init('aiSn66a-RzGBv65hn');
 
-// ---- PROTECTION ----
-document.addEventListener('contextmenu', e => { e.preventDefault(); e.stopPropagation(); return false; }, true);
-document.addEventListener('selectstart', e => { e.preventDefault(); return false; }, true);
-document.addEventListener('dragstart', e => { e.preventDefault(); return false; }, true);
-window.addEventListener('contextmenu', e => { e.preventDefault(); e.stopPropagation(); return false; }, true);
 
 // ---- DATA ----
 const DATA = {
