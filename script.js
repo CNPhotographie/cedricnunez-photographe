@@ -696,6 +696,7 @@ function openLegal() {
 function closeLegal() {
   document.getElementById('legalModal').classList.remove('open');
   document.body.classList.remove('splash-visible');
+  document.body.style.overflow = '';
 }
 
 // ---- COOKIES ----
