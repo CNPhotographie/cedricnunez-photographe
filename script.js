@@ -120,9 +120,11 @@ let _igalCat='all', _igalPhotos=[];
 
 function igalBuild(cat){
   _igalCat=cat;
+  // Sync active filter button to match current category
+  document.querySelectorAll('.igal-cat').forEach(b=>b.classList.toggle('active',b.getAttribute('onclick').includes("'"+cat+"'")));
   if(cat==='all'){
     _igalPhotos=[];
-    ['mariage','couple','ceremonie','naissance'].forEach(c=>DATA[c].forEach(p=>_igalPhotos.push(p)));
+    Object.keys(DATA).forEach(c=>DATA[c].forEach(p=>_igalPhotos.push(p)));
   } else {
     _igalPhotos=DATA[cat]||[];
   }
@@ -175,10 +177,12 @@ function _igalUpdateHUD(){
 (function(){
   const wrap=document.getElementById('igalWrap');
   if(!wrap)return;
-  let down=false,sx=0,sl=0;
-  wrap.addEventListener('mousedown',e=>{down=true;sx=e.pageX;sl=wrap.scrollLeft;wrap.classList.add('dragging');});
+  let down=false,sx=0,sl=0,_dragged=false;
+  wrap.addEventListener('mousedown',e=>{down=true;sx=e.pageX;sl=wrap.scrollLeft;_dragged=false;wrap.classList.add('dragging');});
   document.addEventListener('mouseup',()=>{down=false;wrap.classList.remove('dragging');});
-  wrap.addEventListener('mousemove',e=>{if(!down)return;e.preventDefault();wrap.scrollLeft=sl-(e.pageX-sx)*1.4;});
+  wrap.addEventListener('mousemove',e=>{if(!down)return;if(Math.abs(e.pageX-sx)>5){_dragged=true;e.preventDefault();wrap.scrollLeft=sl-(e.pageX-sx)*1.4;}});
+  // Block click only when a real drag happened (>5px movement)
+  wrap.addEventListener('click',e=>{if(_dragged){e.stopPropagation();_dragged=false;}},{capture:true});
   wrap.addEventListener('scroll',_igalUpdateHUD,{passive:true});
   wrap.addEventListener('wheel',e=>{e.preventDefault();wrap.scrollLeft+=e.deltaY+e.deltaX;},{passive:false});
   let tx=0;
@@ -207,6 +211,8 @@ function showPage(name, pkg){
   }
   setTimeout(initReveals,100);
   if(name==='gallery')setTimeout(()=>igalBuild(_igalCat||'all'),50);
+  // Push browser history so back button works
+  try{history.pushState({page:name},'','#'+name);}catch(e){}
   // Auto-select package if provided
   if(pkg && name==='booking'){
     setTimeout(()=>{
@@ -229,6 +235,11 @@ function showPage(name, pkg){
   }
 }
 function scrollTo2(id){setTimeout(()=>{const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'});},120);}
+
+// Browser back/forward support
+window.addEventListener('popstate',e=>{try{if(e.state&&e.state.page){const p=e.state.page;document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));const t=document.getElementById('page-'+p);if(t)t.classList.add('active');window.scrollTo(0,0);const nav=document.getElementById('navbar');if(nav){if(p==='home'){nav.classList.remove('solid','scrolled');}else{nav.classList.add('solid');nav.classList.remove('scrolled');}}if(p==='gallery')setTimeout(()=>igalBuild(_igalCat||'all'),50);}}catch(e){}});
+// Set initial history entry on load
+(function(){try{const h=location.hash.replace('#','');if(h&&document.getElementById('page-'+h)){showPage(h);}else{history.replaceState({page:'home'},'','#home');}}catch(e){}})();
 
 // ---- BOOKING ----
 let selPkgName='Éternité — 2200€';
