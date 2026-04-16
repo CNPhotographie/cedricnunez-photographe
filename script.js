@@ -46,7 +46,17 @@ const DATA = {
 // ---- LIGHTBOX ----
 let lbPhotos=[], lbIdx=0;
 function openLB(arr,i){lbPhotos=arr;lbIdx=i;updLB();document.getElementById('lightbox').classList.add('active');}
-function updLB(){const p=lbPhotos[lbIdx];document.getElementById('lb-img').src=p.u;document.getElementById('lb-cnt').textContent=(lbIdx+1)+' / '+lbPhotos.length;}
+function updLB(){
+  const p=lbPhotos[lbIdx];
+  const img=document.getElementById('lb-img');
+  document.getElementById('lb-cnt').textContent=(lbIdx+1)+' / '+lbPhotos.length;
+  img.classList.add('fading');
+  setTimeout(()=>{
+    img.src=p.u;
+    img.onload=()=>img.classList.remove('fading');
+    if(img.complete&&img.naturalWidth>0)img.classList.remove('fading');
+  },280);
+}
 function lbNav(d){lbIdx=(lbIdx+d+lbPhotos.length)%lbPhotos.length;updLB();}
 function closeLB(){document.getElementById('lightbox').classList.remove('active');}
 document.getElementById('lightbox').addEventListener('click',e=>{if(e.target===e.currentTarget)closeLB();});
