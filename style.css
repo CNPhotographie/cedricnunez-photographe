@@ -217,19 +217,19 @@ nav.scrolled .nav-cta:hover,nav.solid .nav-cta:hover{background:var(--gold);colo
 .tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
 /* FAN CAROUSEL */
 .fan-carousel{position:relative;padding:0 0 20px;overflow:hidden;}
-.fan-track{position:relative;height:510px;}
+.fan-track{position:relative;height:660px;}
 .fan-slide{position:absolute;border-radius:3px;overflow:hidden;
   transition:all 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
   will-change:transform,opacity;}
 .fan-slide img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;transition:filter 0.6s ease;}
-.fan-slide.pos-center{width:560px;height:420px;left:calc(50% - 280px);top:30px;transform:rotate(0deg);z-index:5;opacity:1;box-shadow:0 40px 100px rgba(0,0,0,0.28);cursor:pointer;}
+.fan-slide.pos-center{width:740px;height:555px;left:calc(50% - 370px);top:30px;transform:rotate(0deg);z-index:5;opacity:1;box-shadow:0 40px 100px rgba(0,0,0,0.28);cursor:pointer;}
 .fan-slide.pos-center img{filter:grayscale(0%);}
-.fan-slide.pos-left{width:340px;height:255px;left:calc(50% - 510px);top:110px;transform:rotate(-12deg);z-index:3;opacity:0.85;cursor:pointer;box-shadow:0 20px 60px rgba(0,0,0,0.18);}
+.fan-slide.pos-left{width:430px;height:325px;left:calc(50% - 640px);top:145px;transform:rotate(-12deg);z-index:3;opacity:0.85;cursor:pointer;box-shadow:0 20px 60px rgba(0,0,0,0.18);}
 .fan-slide.pos-left img{filter:grayscale(100%);}
-.fan-slide.pos-right{width:340px;height:255px;left:calc(50% + 170px);top:110px;transform:rotate(12deg);z-index:3;opacity:0.85;cursor:pointer;box-shadow:0 20px 60px rgba(0,0,0,0.18);}
+.fan-slide.pos-right{width:430px;height:325px;left:calc(50% + 210px);top:145px;transform:rotate(12deg);z-index:3;opacity:0.85;cursor:pointer;box-shadow:0 20px 60px rgba(0,0,0,0.18);}
 .fan-slide.pos-right img{filter:grayscale(100%);}
-.fan-slide.pos-far-left{width:340px;height:255px;left:calc(50% - 760px);top:110px;transform:rotate(-20deg);opacity:0;z-index:1;pointer-events:none;}
-.fan-slide.pos-far-right{width:340px;height:255px;left:calc(50% + 420px);top:110px;transform:rotate(20deg);opacity:0;z-index:1;pointer-events:none;}
+.fan-slide.pos-far-left{width:430px;height:325px;left:calc(50% - 980px);top:145px;transform:rotate(-20deg);opacity:0;z-index:1;pointer-events:none;}
+.fan-slide.pos-far-right{width:430px;height:325px;left:calc(50% + 550px);top:145px;transform:rotate(20deg);opacity:0;z-index:1;pointer-events:none;}
 .fan-slide.pos-left:hover{opacity:1;transform:rotate(-6deg) scale(1.03);}
 .fan-slide.pos-right:hover{opacity:1;transform:rotate(6deg) scale(1.03);}
 .fan-nav{display:flex;justify-content:center;align-items:center;gap:24px;padding-top:16px;position:relative;z-index:10;}
